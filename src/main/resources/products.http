@@ -1,0 +1,17 @@
+### GET request to example server
+# @name=Get all products Traditional
+GET http://localhost:8080/traditional/products
+
+###
+
+### GET request to example server
+# @name=Get all products Reactive
+GET http://localhost:8080/reactive/products
+
+###
+# curl  http://localhost:8080/reactive/products
+GET http://localhost:8080/reactive/products
+
+###
+#curl -N http://localhost:8080/reactive/products
+
