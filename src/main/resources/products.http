@@ -12,6 +12,12 @@ GET http://localhost:8080/reactive/products
 # curl  http://localhost:8080/reactive/products
 GET http://localhost:8080/reactive/products
 
+
+###
+# curl  http://localhost:8080/reactive/products
+GET http://localhost:8080/reactive/products/notorious
+
+
 ###
 #curl -N http://localhost:8080/reactive/products
 

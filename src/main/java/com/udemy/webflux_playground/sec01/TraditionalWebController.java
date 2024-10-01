@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -27,6 +28,28 @@ public class TraditionalWebController {
                 });
         log.info("getProducts: {}", list);
         return list;
+    }
+
+    @GetMapping("products/notorious")
+    public List<Product> getProductsNotorious() {
+        List<Product> list = this.restClient.get()
+                .uri("/demo01/products/notorious")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Product>>() {
+                });
+        log.info("getProducts: {}", list);
+        return list;
+    }
+
+    @GetMapping("products2")
+    public Flux<Product> getProductsFlux() {
+        List<Product> list = this.restClient.get()
+                .uri("/demo01/products")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Product>>() {
+                });
+        log.info("getProducts: {}", list);
+        return Flux.fromIterable(list);
     }
 
 }

@@ -26,6 +26,16 @@ public class ReactiveWebController {
                 .doOnNext(product -> log.info("getProducts: {}", product));
     }
 
+    @GetMapping("products/notorious")
+    public Flux<Product> getProductsNotorious() {
+        return this.webClient.get()
+                .uri("/demo01/products/notorious")
+                .retrieve()
+                .bodyToFlux(Product.class)
+                .onErrorComplete()
+                .doOnNext(product -> log.info("getProducts: {}", product));
+    }
+
     @GetMapping(value = "products/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Product> getProductsStream() {
         return this.webClient.get()
