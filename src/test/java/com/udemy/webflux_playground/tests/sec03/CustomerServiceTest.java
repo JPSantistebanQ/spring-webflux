@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import java.util.Objects;
+
 @Log4j2
 public class CustomerServiceTest extends AbstractTest {
 
@@ -36,7 +38,7 @@ public class CustomerServiceTest extends AbstractTest {
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBody()
                 .consumeWith(r -> {
-                    log.info("response: {}", r.getResponseBody());
+                    log.info("response: {}", new String(Objects.requireNonNull(r.getResponseBody())));
                 })
                 .jsonPath("$").isArray()
                 .jsonPath("$.length()").isEqualTo(2)
