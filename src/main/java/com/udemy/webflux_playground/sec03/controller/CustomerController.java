@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("customers")
 public class CustomerController {
@@ -18,6 +20,13 @@ public class CustomerController {
     @GetMapping
     public Flux<CustomerDto> getAllCustomers() {
         return this.customerService.getAllCustomers();
+    }
+
+    @GetMapping("paginated")
+    public Mono<List<CustomerDto>> getAllCustomers(@RequestParam(name = "page", defaultValue = "1") Integer page,
+                                                   @RequestParam(defaultValue = "3") Integer size) {
+        return this.customerService.getAllCustomers(page, size)
+                .collectList();
     }
 
     @GetMapping("{id}")
