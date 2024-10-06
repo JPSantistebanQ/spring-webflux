@@ -1,11 +1,12 @@
 package com.udemy.webflux_playground.tests.sec07;
 
+import com.udemy.webflux_playground.tests.sec07.dto.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.Duration;
 
-public class Lec01MonoTest extends AbstractWebClient {
+class Lec01MonoTest extends AbstractWebClient {
     private final WebClient client = createWebClient();
 
     @Test
