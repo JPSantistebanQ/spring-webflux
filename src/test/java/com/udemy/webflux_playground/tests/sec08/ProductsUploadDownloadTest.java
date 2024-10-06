@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.nio.file.Path;
 import java.time.Duration;
 
 @Log4j2
@@ -30,6 +31,16 @@ public class ProductsUploadDownloadTest {
         this.productClient.uploadProducts(flux)
                 .doOnNext(uploadResponse -> log.info("uploadResponse: {}", uploadResponse))
                 .then()
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    void downloadProducts() {
+        this.productClient.downloadProducts()
+                .map(ProductDto::toString)
+                .as(flux -> FileWriter.create(flux, Path.of("products.txt")))
                 .as(StepVerifier::create)
                 .expectComplete()
                 .verify();
