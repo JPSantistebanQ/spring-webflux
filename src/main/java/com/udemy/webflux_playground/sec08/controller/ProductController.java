@@ -6,10 +6,7 @@ import com.udemy.webflux_playground.sec08.service.ProductService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -29,5 +26,10 @@ public class ProductController {
         return this.productService.saveProducts(flux.doOnNext(productDto -> log.info("saving {}", productDto)))
                 .then(this.productService.getProductCount())
                 .map(count -> new UploadResponse(UUID.randomUUID(), count));
+    }
+
+    @GetMapping(value = "download", produces = MediaType.APPLICATION_NDJSON_VALUE)
+    public Flux<ProductDto> downloadProducts() {
+        return this.productService.allProducts();
     }
 }
