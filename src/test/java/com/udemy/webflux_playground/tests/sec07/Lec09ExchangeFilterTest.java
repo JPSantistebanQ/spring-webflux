@@ -11,13 +11,14 @@ import reactor.test.StepVerifier;
 import java.util.UUID;
 
 @Log4j2
-class Lec08ExchangeFilterTest extends AbstractWebClient {
+class Lec09ExchangeFilterTest extends AbstractWebClient {
     private final WebClient client = createWebClient(b -> b.filter(tokenGenerator()).filter(logHeaders()));
 
     @Test
     void exchangeFilter() {
         this.client.get()
                 .uri("/lec09/product/{id}", 1)
+                .attribute("enable-logging", true)
                 .retrieve()
                 .bodyToMono(Product.class)
                 //.take(Duration.ofSeconds(3))
@@ -39,8 +40,11 @@ class Lec08ExchangeFilterTest extends AbstractWebClient {
 
     private ExchangeFilterFunction logHeaders() {
         return ((request, next) -> {
-            log.info("Method: {}", request.method());
-            log.info("URI: {}", request.url());
+            boolean isEnabled = (Boolean) request.attributes().getOrDefault("enable-logging", false);
+            if (isEnabled) {
+                log.info("Method: {}", request.method());
+                log.info("URI: {}", request.url());
+            }
             return next.exchange(request);
         });
     }
