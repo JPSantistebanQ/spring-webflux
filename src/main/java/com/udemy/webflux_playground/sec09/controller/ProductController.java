@@ -23,8 +23,11 @@ public class ProductController {
         return this.productService.saveProduct(mono);
     }
 
-    @GetMapping(value = "stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ProductDto> productStream() {
-        return this.productService.productsStream();
+    @GetMapping(value = "/stream/{maxPrice}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ProductDto> productStream(@PathVariable Integer maxPrice) {
+        return this.productService.productsStream()
+                .filter(productDto -> productDto.price() <= maxPrice);
     }
+
+
 }
